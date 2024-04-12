@@ -4,26 +4,28 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from dataclasses import dataclass
 
 
-class ChromeWebStoreItem(scrapy.Item):
-    url = scrapy.Field()
-    id = scrapy.Field()
-    name = scrapy.Field()
-    logo = scrapy.Field()
-    banner = scrapy.Field()
-    website_owner = scrapy.Field()
-    created_by_the_website_owner = scrapy.Field()
-    featured = scrapy.Field()
-    rating = scrapy.Field()
-    rating_count = scrapy.Field()
-    category = scrapy.Field()
-    subcategory = scrapy.Field()
-    users = scrapy.Field()
-    images = scrapy.Field()
-    overview = scrapy.Field()
-    version = scrapy.Field()
-    size = scrapy.Field()
-    languages = scrapy.Field()
-    last_updated = scrapy.Field()
-    developer = scrapy.Field()
+@dataclass
+class ChromeWebStoreItem:
+    url: str
+    id: str
+    name: str
+    logo: str
+    banner: str
+    website_owner: str
+    created_by_the_website_owner: bool
+    featured: bool
+    rating: float
+    rating_count: int
+    category: str
+    subcategory: str
+    users: int
+    images: list[str]
+    overview: str
+    version: str
+    size: str
+    languages: list[str]
+    last_updated: int
+    developer: dict[str, str]
