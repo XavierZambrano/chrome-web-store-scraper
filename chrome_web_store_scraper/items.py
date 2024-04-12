@@ -9,6 +9,7 @@ import scrapy
 class ChromeWebStoreItem(scrapy.Item):
     url = scrapy.Field()
     id = scrapy.Field()
+    name = scrapy.Field()
     logo = scrapy.Field()
     banner = scrapy.Field()
     website_owner = scrapy.Field()
