@@ -20,8 +20,8 @@ class ChromeWebStoreSpider(SitemapSpider):
     def parse(self, response):
         id = response.url.split('/')[-1]
         # name = response.xpath('//h1[@class="Pa2dE"]//text()').get()
-        category = response.xpath('//a[@class="gqpEIe FjUAcd"]/@href').get()  #
-        subcategory = response.xpath('//a[@class="gqpEIe bgp7Ye"]/@href').get()  #
+        category = response.xpath('//a[@class="gqpEIe FjUAcd"]/text()').get()  #
+        subcategory = response.xpath('//a[@class="gqpEIe bgp7Ye"]/text()').get()  #
         # website_owner = response.xpath('//a[@class="cJI8ee"]/@href').get()
         # created_by_the_website_owner = True if website_owner else False
         featured_raw = response.xpath('//span[@class="OmOMFc"]').getall()
@@ -30,11 +30,17 @@ class ChromeWebStoreSpider(SitemapSpider):
         # rating = int(rating_raw.split()[0])
 
         script_raw = response.xpath(f'''//script[contains(text(), 'data:[[\"{id}\"')]/text()''').get()
-        data = script_to_data(script_raw)
+        data = {}
+        data.update(script_to_data(script_raw))
         data['url'] = response.url
         data['category'] = category
         data['subcategory'] = subcategory
         data['featured'] = featured
+        data['website_owner'] = response.xpath('//a[@class="cJI8ee"]/@href').get()
+        developer_address_raw = response.xpath('//div[@class="C2WXF"]/text()').getall()
+        developer_address = '\n'.join(developer_address_raw)
+        data['developer']['address'] = developer_address
+        data['developer']['website'] = response.xpath('//a[@class="XQ8Hh"]/@href').get()
         chrome_web_store_item = ChromeWebStoreItem(**data)
 
         # TODO reviews
