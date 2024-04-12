@@ -43,7 +43,17 @@ class TestChromeWebStoreSpider(unittest.TestCase):
 
         self.assertEqual(ItemAdapter(result).asdict()['logo'], expected_result)
 
+    def test_parse_no_banner(self):
+        mock_response = self.get_mock_response(
+            'hpaaaecejfpkokofieggejohddmmaajp',
+            'https://chromewebstore.google.com/detail/tweaks-for-topmeteoeu/hpaaaecejfpkokofieggejohddmmaajp'
+        )
+        expected_result = None
 
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['banner'], expected_result)
 
     def get_mock_response(self, id, url):
         mock_response_path = f'assets/example_responses/{id}.html'
