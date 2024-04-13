@@ -3,8 +3,7 @@ from scrapy.spiders import SitemapSpider
 from dotenv import load_dotenv
 
 from chrome_web_store_scraper.utils import script_to_data
-from chrome_web_store_scraper.items import ChromeWebStoreItem
-
+from chrome_web_store_scraper.items import ChromeWebStoreItem, ChromeWebStoreItemLoader
 
 load_dotenv()
 
@@ -18,30 +17,42 @@ class ChromeWebStoreSpider(SitemapSpider):
     ]
 
     def parse(self, response):
+        l = ChromeWebStoreItemLoader(ChromeWebStoreItem(), selector=response)
         id = response.url.split('/')[-1]
-        # name = response.xpath('//h1[@class="Pa2dE"]//text()').get()
-        category = response.xpath('//a[@class="gqpEIe FjUAcd"]/text()').get()  #
-        subcategory = response.xpath('//a[@class="gqpEIe bgp7Ye"]/text()').get()  #
-        # website_owner = response.xpath('//a[@class="cJI8ee"]/@href').get()
-        # created_by_the_website_owner = True if website_owner else False
-        featured_raw = response.xpath('//span[@class="OmOMFc"]').getall()
-        featured = True if featured_raw else False  #
-        # rating_raw = response.xpath('//div[@class="B1UG8d or8rae"]/@title').get()
-        # rating = int(rating_raw.split()[0])
+
+        featured_container = response.xpath('//span[@class="OmOMFc"]').get()
+        l.add_value('featured', True if featured_container else False)
 
         script_raw = response.xpath(f'''//script[contains(text(), 'data:[[\"{id}\"')]/text()''').get()
         data = {}
         data.update(script_to_data(script_raw))
-        data['url'] = response.url
-        data['category'] = category
-        data['subcategory'] = subcategory
-        data['featured'] = featured
-        data['website_owner'] = response.xpath('//a[@class="cJI8ee"]/@href').get()
+
         developer_address_raw = response.xpath('//div[@class="C2WXF"]/text()').getall()
         developer_address = '\n'.join(developer_address_raw)
-        data['developer']['address'] = developer_address
+        developer_trader_raw = response.xpath('//li[@class="Qt4bne C0lQ7e"]//div[@class="qqYFxc"]/text()').get()
+        data['developer']['address'] = developer_address if developer_address else None
         data['developer']['website'] = response.xpath('//a[@class="XQ8Hh"]/@href').get()
-        chrome_web_store_item = ChromeWebStoreItem(**data)
+        data['developer']['trader'] = True if developer_trader_raw.lower() == 'Trader'.lower() else False
+
+        l.add_value('url', response.url)
+        l.add_value('id', id)
+        l.add_xpath('category', '//a[@class="gqpEIe FjUAcd"]/text()')
+        l.add_xpath('subcategory', '//a[@class="gqpEIe bgp7Ye"]/text()')
+        l.add_xpath('website_owner', '//a[@class="cJI8ee"]/@href')
+        l.add_value('created_by_the_website_owner', data['created_by_the_website_owner'])
+        l.add_value('developer', data['developer'])
+        l.add_value('logo', data['logo'])
+        l.add_value('banner', data['banner'])
+        l.add_value('name', data['name'])
+        l.add_value('rating', data['rating'])
+        l.add_value('rating_count', data['rating_count'])
+        l.add_value('users', data['users'])
+        l.add_value('images', data['images'])
+        l.add_value('overview', data['overview'])
+        l.add_value('version', data['version'])
+        l.add_value('size', data['size'])
+        l.add_value('languages', data['languages'])
+        l.add_value('last_updated', data['last_updated'])
 
         # TODO reviews
         # https://chromewebstore.google.com/_/ChromeWebStoreConsumerFeUi/data/batchexecute
@@ -50,4 +61,4 @@ class ChromeWebStoreSpider(SitemapSpider):
 
         # TODO Add privacy data?
         # TODO Add related extensions data?
-        yield chrome_web_store_item
+        yield l.load_item()

@@ -30,6 +30,7 @@ def format_script_data(script_data: list):
         'languages': script_data[16],
         'last_updated': script_data[14][0],
         'developer': {
+            'name': script_data[10][5],
             'address': address,  # TODO fix
             'website': script_data[0][7],  # TODO fix
             'email': script_data[10][0],
