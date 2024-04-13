@@ -44,49 +44,49 @@ class TestChromeWebStoreSpider(unittest.TestCase):
 
         self.assertEqual(ItemAdapter(result).asdict()['id'], expected_result)
 
-    def test_parse_name(self):
+    def test_parse_title(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
-        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['name']
+        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['title']
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['name'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['title'], expected_result)
 
-    def test_parse_logo(self):
+    def test_parse_icon(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
-        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['logo']
+        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['icon']
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['logo'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['icon'], expected_result)
 
-    def test_parse_logo_none(self):
+    def test_parse_icon_none(self):
         mock_response = self.get_mock_response('hpaaaecejfpkokofieggejohddmmaajp')
         expected_result = None
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['logo'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['icon'], expected_result)
 
-    def test_parse_banner(self):
+    def test_parse_small_promo_tile(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
-        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['banner']
+        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['small_promo_tile']
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['banner'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['small_promo_tile'], expected_result)
 
-    def test_parse_banner_none(self):
+    def test_parse_small_promo_tile_none(self):
         mock_response = self.get_mock_response('hpaaaecejfpkokofieggejohddmmaajp')
         expected_result = None
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['banner'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['small_promo_tile'], expected_result)
 
     def test_parse_website_owner(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
@@ -178,7 +178,25 @@ class TestChromeWebStoreSpider(unittest.TestCase):
 
         self.assertEqual(ItemAdapter(result).asdict()['rating_count'], expected_result)
 
-    def test_parse_category_extension(self):
+    def test_parse_type_extension(self):
+        mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
+        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['type']
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['type'], expected_result)
+
+    def test_parse_type_theme(self):
+        mock_response = self.get_mock_response('mafbdhjdkjnoafhfelkjpchpaepjknad')
+        expected_result = self.get_expected_result('mafbdhjdkjnoafhfelkjpchpaepjknad')['type']
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['type'], expected_result)
+
+    def test_parse_category(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
         expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['category']
 
@@ -186,24 +204,6 @@ class TestChromeWebStoreSpider(unittest.TestCase):
         result = next(generator)
 
         self.assertEqual(ItemAdapter(result).asdict()['category'], expected_result)
-
-    def test_parse_category_theme(self):
-        mock_response = self.get_mock_response('mafbdhjdkjnoafhfelkjpchpaepjknad')
-        expected_result = self.get_expected_result('mafbdhjdkjnoafhfelkjpchpaepjknad')['category']
-
-        generator = self.spider.parse(mock_response)
-        result = next(generator)
-
-        self.assertEqual(ItemAdapter(result).asdict()['category'], expected_result)
-
-    def test_parse_subcategory(self):
-        mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
-        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['subcategory']
-
-        generator = self.spider.parse(mock_response)
-        result = next(generator)
-
-        self.assertEqual(ItemAdapter(result).asdict()['subcategory'], expected_result)
 
     def test_parse_users(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
@@ -218,14 +218,14 @@ class TestChromeWebStoreSpider(unittest.TestCase):
         # Find an extension with 0 users
         pass  # TODO
 
-    def test_parse_images(self):
+    def test_parse_screenshots(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
-        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['images']
+        expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['screenshots']
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
 
-        self.assertEqual(ItemAdapter(result).asdict()['images'], expected_result)
+        self.assertEqual(ItemAdapter(result).asdict()['screenshots'], expected_result)
 
     def test_parse_no_images(self):
         pass  # All the chrome web store items have at least one screenshot

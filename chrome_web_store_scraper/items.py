@@ -18,25 +18,24 @@ def take_second(value):
 class ChromeWebStoreItem:
     id: str = field(default=None)
     url: str = field(default=None)
-    name: str = field(default=None)
-    logo: str = field(default=None)
-    banner: str = field(default=None)
+    title: str = field(default=None)
+    icon: str = field(default=None)
+    small_promo_tile: str = field(default=None)
     website_owner: str = field(default=None)
     created_by_the_website_owner: bool = field(default=None)
     featured: bool = field(default=None)
     rating: float = field(default=0.0)
     rating_count: int = field(default=0)
+    type: str = field(default=None)
     category: str = field(default=None)
-    subcategory: str = field(default=None)
     users: int = field(default=0)
-    images: list[str] = field(default_factory=list)
+    screenshots: list[str] = field(default_factory=list)
     overview: str = field(default=None)
     version: str = field(default=None)
     size: str = field(default=None)
     languages: list[str] = field(default_factory=list)
     last_updated: int = field(default=None)
     developer: dict[str, str] = field(default_factory=dict)
-
 
 
 class ChromeWebStoreItemLoader(ItemLoader):
@@ -48,14 +47,14 @@ class ChromeWebStoreItemLoader(ItemLoader):
     id_in = MapCompose(str)
     id_out = TakeFirst()
 
-    name_in = MapCompose(str)
-    name_out = TakeFirst()
+    title_in = MapCompose(str)
+    title_out = TakeFirst()
 
-    logo_in = MapCompose(str)
-    logo_out = TakeFirst()
+    icon_in = MapCompose(str)
+    icon_out = TakeFirst()
 
-    banner_in = MapCompose(str)
-    banner_out = TakeFirst()
+    small_promo_tile_in = MapCompose(str)
+    small_promo_tile_out = TakeFirst()
 
     website_owner_in = MapCompose(str)
     website_owner_out = TakeFirst()
@@ -72,17 +71,17 @@ class ChromeWebStoreItemLoader(ItemLoader):
     rating_count_in = MapCompose(int)
     rating_count_out = take_second
 
+    type_in = MapCompose(str)
+    type_out = TakeFirst()
+
     category_in = MapCompose(str)
     category_out = TakeFirst()
-
-    subcategory_in = MapCompose(str)
-    subcategory_out = TakeFirst()
 
     users_in = MapCompose(int)
     users_out = take_second
 
-    images_in = Identity()
-    images_out = Identity()
+    screenshots_in = Identity()
+    screenshots_out = Identity()
 
     overview_in = MapCompose(str)
     overview_out = TakeFirst()
