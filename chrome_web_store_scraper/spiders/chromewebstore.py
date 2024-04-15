@@ -36,7 +36,6 @@ class ChromeWebStoreSpider(SitemapSpider):
 
         l.add_value('url', response.url)
         l.add_value('id', id)
-        l.add_xpath('type', '//a[@class="gqpEIe FjUAcd"]/text()')
         l.add_xpath('category', '//a[@class="gqpEIe bgp7Ye"]/text()')
         l.add_xpath('website_owner', '//a[@class="cJI8ee"]/@href')
         l.add_value('created_by_the_website_owner', data['created_by_the_website_owner'])
@@ -46,6 +45,7 @@ class ChromeWebStoreSpider(SitemapSpider):
         l.add_value('title', data['title'])
         l.add_value('rating', data['rating'])
         l.add_value('rating_count', data['rating_count'])
+        l.add_value('type', data['type'])
         l.add_value('users', data['users'])
         l.add_value('screenshots', data['screenshots'])
         l.add_value('overview', data['overview'])

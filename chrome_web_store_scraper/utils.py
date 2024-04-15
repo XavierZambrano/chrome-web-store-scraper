@@ -13,6 +13,17 @@ def format_script_data(script_data: list):
     address += '\n'
     address += script_data[10][1] if script_data[10][1] else ''
 
+    manifest = script_data[20]
+    manifest = json.loads(manifest)
+    if manifest is not dict and 'manifest_version' not in manifest.keys():
+        raise ValueError('Error getting the Manifest')
+    if 'theme' in manifest.keys():
+        type = 'Theme'
+    elif 'app' in manifest.keys():
+        type = 'App'
+    else:
+        type = 'Extension'
+
     data = {
         'id': script_data[0][0],
         'icon': script_data[0][1],
@@ -21,6 +32,7 @@ def format_script_data(script_data: list):
         'website_owner': script_data[0][7],
         'rating': script_data[0][3],
         'rating_count': script_data[0][4],
+        'type': type,
         'category': script_data[0][11][0],
         'users': script_data[0][14],
         'screenshots': images,
