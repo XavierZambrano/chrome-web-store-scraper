@@ -8,16 +8,33 @@ def script_text_to_json(text):
     return json.loads(data)
 
 
+def load_manifest(manifest_raw: str) -> dict:
+    # Remove BOM
+    manifest = manifest_raw.replace(u'\ufeff', '')
+
+    return json.loads(manifest)
+
+
+def is_manifest_valid(manifest):
+    if not isinstance(manifest, dict):
+        return False
+
+    if 'name' not in manifest or 'version' not in manifest:
+        return False
+
+    return True
+
+
 def format_script_data(script_data: list):
     images = [image_raw[-1] for image_raw in script_data[5]]
     address = script_data[10][-1] if script_data[10][-1] else ''
     address += '\n'
     address += script_data[10][1] if script_data[10][1] else ''
 
-    manifest = script_data[20]
-    manifest = json.loads(manifest)
-    if not isinstance(manifest, dict) or 'name' not in manifest or 'version' not in manifest:
-        raise InvalidManifest('Error getting the Manifest')
+    manifest = load_manifest(script_data[20])
+
+    if not is_manifest_valid(manifest):
+        raise InvalidManifest('Invalid manifest')
     if 'theme' in manifest.keys():
         type = 'Theme'
     elif 'app' in manifest.keys():
@@ -34,7 +51,7 @@ def format_script_data(script_data: list):
         'rating': script_data[0][3],
         'rating_count': script_data[0][4],
         'type': type,
-        'category': script_data[0][11][0],
+        'category': script_data[0][11][0] if script_data[0][11] else None,
         'users': script_data[0][14],
         'screenshots': images,
         'overview': script_data[6],

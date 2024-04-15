@@ -25,7 +25,8 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             'efaidnbmnnnibpcajpcglclefindmkaj': 'https://chromewebstore.google.com/detail/adobe-acrobat-pdf-edit-co/efaidnbmnnnibpcajpcglclefindmkaj',
             'mafbdhjdkjnoafhfelkjpchpaepjknad': 'https://chromewebstore.google.com/detail/morpheon-dark/mafbdhjdkjnoafhfelkjpchpaepjknad',
             'jjbkhmlbghdnlkkcgekdipankmcioblk': 'https://chromewebstore.google.com/detail/unziponline/jjbkhmlbghdnlkkcgekdipankmcioblk',  # App
-            'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm'
+            'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm',
+            'jjbhgpfdmeneonmohjkipnbfegoclbpa': 'https://chromewebstore.google.com/detail/thomas-bangalter-theme/jjbhgpfdmeneonmohjkipnbfegoclbpa'
         }
 
     def test_parse_top_extension(self):
@@ -210,6 +211,15 @@ class TestChromeWebStoreSpider(unittest.TestCase):
     def test_parse_category(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
         expected_result = self.get_expected_result('nllcnknpjnininklegdoijpljgdjkijc')['category']
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['category'], expected_result)
+
+    def test_parse_category_none(self):
+        mock_response = self.get_mock_response('jjbhgpfdmeneonmohjkipnbfegoclbpa')
+        expected_result = None
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
