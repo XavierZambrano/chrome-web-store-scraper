@@ -1,5 +1,6 @@
 import re
 import json
+from chrome_web_store_scraper.errors import InvalidManifest
 
 
 def script_text_to_json(text):
@@ -15,8 +16,8 @@ def format_script_data(script_data: list):
 
     manifest = script_data[20]
     manifest = json.loads(manifest)
-    if manifest is not dict and 'manifest_version' not in manifest.keys():
-        raise ValueError('Error getting the Manifest')
+    if not isinstance(manifest, dict) or 'name' not in manifest or 'version' not in manifest:
+        raise InvalidManifest('Error getting the Manifest')
     if 'theme' in manifest.keys():
         type = 'Theme'
     elif 'app' in manifest.keys():

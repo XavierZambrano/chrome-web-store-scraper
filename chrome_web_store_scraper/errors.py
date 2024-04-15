@@ -1,0 +1,2 @@
+class InvalidManifest(Exception):
+    pass
