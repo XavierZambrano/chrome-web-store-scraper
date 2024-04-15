@@ -24,7 +24,8 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             'hpaaaecejfpkokofieggejohddmmaajp': 'https://chromewebstore.google.com/detail/tweaks-for-topmeteoeu/hpaaaecejfpkokofieggejohddmmaajp',
             'efaidnbmnnnibpcajpcglclefindmkaj': 'https://chromewebstore.google.com/detail/adobe-acrobat-pdf-edit-co/efaidnbmnnnibpcajpcglclefindmkaj',
             'mafbdhjdkjnoafhfelkjpchpaepjknad': 'https://chromewebstore.google.com/detail/morpheon-dark/mafbdhjdkjnoafhfelkjpchpaepjknad',
-            'jjbkhmlbghdnlkkcgekdipankmcioblk': 'https://chromewebstore.google.com/detail/unziponline/jjbkhmlbghdnlkkcgekdipankmcioblk'  # App
+            'jjbkhmlbghdnlkkcgekdipankmcioblk': 'https://chromewebstore.google.com/detail/unziponline/jjbkhmlbghdnlkkcgekdipankmcioblk',  # App
+            'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm'
         }
 
     def test_parse_top_extension(self):
@@ -225,8 +226,13 @@ class TestChromeWebStoreSpider(unittest.TestCase):
         self.assertEqual(ItemAdapter(result).asdict()['users'], expected_result)
 
     def test_parse_users_zero(self):
-        # Find an extension with 0 users
-        pass  # TODO
+        mock_response = self.get_mock_response('kapfdnlpbbdjbhpabafjhdglkjjckbkm')
+        expected_result = 0
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['users'], expected_result)
 
     def test_parse_screenshots(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
