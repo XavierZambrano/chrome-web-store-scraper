@@ -4,6 +4,7 @@ from itemadapter import ItemAdapter
 from scrapy.crawler import CrawlerProcess
 
 from chrome_web_store_scraper.spiders.chromewebstore import ChromeWebStoreSpider
+from chrome_web_store_scraper.errors import NotAvailableItem
 from test.utils import mock_response_from_file
 
 
@@ -26,7 +27,8 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             'mafbdhjdkjnoafhfelkjpchpaepjknad': 'https://chromewebstore.google.com/detail/morpheon-dark/mafbdhjdkjnoafhfelkjpchpaepjknad',
             'jjbkhmlbghdnlkkcgekdipankmcioblk': 'https://chromewebstore.google.com/detail/unziponline/jjbkhmlbghdnlkkcgekdipankmcioblk',  # App
             'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm',
-            'jjbhgpfdmeneonmohjkipnbfegoclbpa': 'https://chromewebstore.google.com/detail/thomas-bangalter-theme/jjbhgpfdmeneonmohjkipnbfegoclbpa'
+            'jjbhgpfdmeneonmohjkipnbfegoclbpa': 'https://chromewebstore.google.com/detail/thomas-bangalter-theme/jjbhgpfdmeneonmohjkipnbfegoclbpa',
+            'fmamogbdpldjdkjldlcicflgecgahalp': 'https://chromewebstore.google.com/detail/webcam-widget-pro/fmamogbdpldjdkjldlcicflgecgahalp'
         }
 
     def test_parse_top_extension(self):
@@ -363,6 +365,12 @@ class TestChromeWebStoreSpider(unittest.TestCase):
 
         self.assertEqual(ItemAdapter(result).asdict()['developer']['trader'], expected_result)
 
+    def test_not_available_item(self):
+        mock_response = self.get_mock_response('fmamogbdpldjdkjldlcicflgecgahalp')
+        with self.assertRaises(NotAvailableItem):
+            generator = self.spider.parse(mock_response)
+            result = next(generator)
+
     def get_mock_response(self, id):
         mock_response_path = f'assets/example_responses/{id}.html'
         mock_response_url = self.mock_response[id]
@@ -372,3 +380,4 @@ class TestChromeWebStoreSpider(unittest.TestCase):
         expected_result_path = f'assets/expected/{id}.json'
         with open(expected_result_path, 'r', encoding='utf-8') as f:
             return json.load(f)
+
