@@ -33,11 +33,22 @@ def get_users(script_data: list):
         return 0
 
 
+def get_developer(script_data: list):
+    if script_data[10]:
+        developer = {
+            'name': script_data[10][5],
+            'email': script_data[10][0],
+        }
+    else:
+        developer = {
+            'name': None,
+            'email': None,
+        }
+    return developer
+
+
 def format_script_data(script_data: list):
     images = [image_raw[-1] for image_raw in script_data[5]]
-    address = script_data[10][-1] if script_data[10][-1] else ''
-    address += '\n'
-    address += script_data[10][1] if script_data[10][1] else ''
 
     manifest = load_manifest(script_data[20])
 
@@ -67,14 +78,7 @@ def format_script_data(script_data: list):
         'size': script_data[15],
         'languages': script_data[16],
         'last_updated': script_data[14][0],
-        'developer': {
-            'name': script_data[10][5],
-            'address': address,  # TODO fix
-            'website': script_data[0][7],  # TODO fix
-            'email': script_data[10][0],
-            'trader': script_data[10][3]
-        },
-
+        'developer': get_developer(script_data)
     }
 
     data['created_by_the_website_owner'] = True if data['website_owner'] else False

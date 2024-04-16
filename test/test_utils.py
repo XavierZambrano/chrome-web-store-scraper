@@ -42,10 +42,7 @@ class TestUtils(unittest.TestCase):
             "last_updated": 1712055462,
             "developer": {
                 "name": "Wordtune",
-                "address": "AI21 Labs Ltd.\n124 Ibn Gabirol St.\nTel Aviv 6203854\nIL",
-                "website": "wordtune.com",
-                "email": "help@wordtune.com",
-                "trader": True
+                "email": "help@wordtune.com"
             }
         }
         self.assertEqual(format_script_data(script_data), expected)
@@ -88,7 +85,6 @@ class TestUtils(unittest.TestCase):
         expected = {
             'name': None,
             'email': None,
-            'trader': None
         }
 
         self.assertEqual(get_developer(script_data), expected)
