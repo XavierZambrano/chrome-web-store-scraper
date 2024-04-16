@@ -36,7 +36,7 @@ def get_users(script_data: list):
 def get_developer(script_data: list):
     if script_data[10]:
         developer = {
-            'name': script_data[10][5],
+            'name': script_data[10][5] if len(script_data[10]) > 5 else None,
             'email': script_data[10][0],
         }
     else:
