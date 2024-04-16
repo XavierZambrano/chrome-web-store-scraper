@@ -25,6 +25,14 @@ def is_manifest_valid(manifest):
     return True
 
 
+def get_users(script_data: list):
+    if len(script_data[0]) > 14:
+        users = script_data[0][14]
+        return users
+    else:
+        return 0
+
+
 def format_script_data(script_data: list):
     images = [image_raw[-1] for image_raw in script_data[5]]
     address = script_data[10][-1] if script_data[10][-1] else ''
@@ -52,7 +60,7 @@ def format_script_data(script_data: list):
         'rating_count': script_data[0][4],
         'type': type,
         'category': script_data[0][11][0] if script_data[0][11] else None,
-        'users': script_data[0][14],
+        'users': get_users(script_data),
         'screenshots': images,
         'overview': script_data[6],
         'version': script_data[13],
