@@ -4,7 +4,7 @@ from itemadapter import ItemAdapter
 from scrapy.crawler import CrawlerProcess
 
 from chrome_web_store_scraper.spiders.chromewebstore import ChromeWebStoreSpider
-from tests.utils import mock_response_from_file
+from test.utils import mock_response_from_file
 
 
 if 'unittest.util' in __import__('sys').modules:
