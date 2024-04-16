@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from chrome_web_store_scraper.utils import script_to_data
 from chrome_web_store_scraper.items import ChromeWebStoreItem, ChromeWebStoreItemLoader
+from chrome_web_store_scraper.errors import NotAvailableItem
 
 load_dotenv()
 
@@ -17,6 +18,9 @@ class ChromeWebStoreSpider(SitemapSpider):
     ]
 
     def parse(self, response):
+        if response.xpath('//div[@class="VuNdOd"]').get():
+            raise NotAvailableItem(f'Item not available {response.url}')
+
         l = ChromeWebStoreItemLoader(ChromeWebStoreItem(), selector=response)
         id = response.url.split('/')[-1]
 
