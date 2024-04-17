@@ -5,7 +5,7 @@ from chrome_web_store_scraper.errors import InvalidManifest
 
 def script_text_to_json(text):
     data = re.search(r'''data:(.*?), sideChannel: {}}\);$''', text).group(1)
-    return json.loads(data)
+    return json.loads(data, strict=False)
 
 
 def load_manifest(manifest_raw: str) -> dict:
