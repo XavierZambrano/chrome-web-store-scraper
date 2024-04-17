@@ -10,7 +10,13 @@ def script_text_to_json(text):
 
 
 def load_manifest(manifest_raw: str) -> dict:
-    return pyjson5.loads(manifest_raw)
+    try:
+        # Remove BOM
+        manifest = manifest_raw.replace(u'\ufeff', '')
+        return json.loads(manifest, strict=False)
+    except json.JSONDecodeError:
+        return pyjson5.loads(manifest_raw)
+
 
 def is_manifest_valid(manifest):
     if not isinstance(manifest, dict):
