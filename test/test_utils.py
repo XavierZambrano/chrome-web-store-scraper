@@ -57,23 +57,23 @@ class TestUtils(unittest.TestCase):
         }
         self.assertEqual(format_script_data(script_data), expected)
 
-    def load_manifest(self):
+    def test_load_manifest(self):
         manifest_raw = "{\n\"update_url\": \"https://clients2.google.com/service/update2/crx\",\n\n  \"manifest_version\": 2,\n  \"name\": \"Tweaks for TopMeteo.eu\",\n  \"description\": \"Usability enhancements for topmeteo.eu\",\n  \"version\": \"2.3\",\n  \"content_scripts\": [\n    {\n      \"matches\": [\"https://*.topmeteo.eu/*\"],\n      \"js\": [\"topmeteo.js\"],\n      \"run_at\": \"document_end\"\n    }\n  ]\n}\n"
         load_manifest(manifest_raw)
 
-    def load_manifest_BOM(self):
+    def test_load_manifest_BOM(self):
         manifest_raw = "\ufeff{\n\"update_url\":\"http://clients2.google.com/service/update2/crx\",\"version\":\"2.20\",\"name\":\"СС theme by wow23\",\"description\":\"best anime ever?!\\r\\n\",\"theme\":{\"images\":{\"theme_frame\":\"images\\/theme_frame.png\",\"theme_toolbar\":\"images\\/theme_toolbar.png\",\"theme_tab_background\":\"images\\/theme_tab_background.png\",\"theme_ntp_background\":\"images\\/theme_ntp_background.png\"},\"colors\":{\"frame\":[174,212,116],\"frame_inactive\":[174,212,116],\"frame_incognito\":[100,122,67],\"frame_incognito_inactive\":[100,122,67],\"toolbar\":[174,212,116],\"tab_text\":[0,0,0],\"tab_background_text\":[115,115,115],\"bookmark_text\":[0,0,0],\"ntp_background\":[255,255,255],\"ntp_text\":[0,0,0],\"ntp_link\":[0,0,0],\"ntp_header\":[174,212,116],\"ntp_section\":[226,238,208],\"ntp_section_text\":[174,212,116],\"ntp_section_link\":[0,0,0],\"control_background\":[0,0,0,0],\"button_background\":[174,212,116,0]},\"properties\":{\"ntp_background_alignment\":\"\",\"ntp_background_repeat\":\"no-repeat\"},\"tints\":{\"buttons\":[1,1,1],\"frame\":[-1,-1,-1],\"frame_inactive\":[-1,-1,0.75],\"frame_incognito\":[-1,0.2,0.35],\"frame_incognito_inactive\":[-1,0.3,0.6],\"background_tab\":[-1,0.5,0.75]}}}"
         # expect no JSONDecodeError
         load_manifest(manifest_raw)
 
-    def is_manifest_valid(self):
+    def test_is_manifest_valid(self):
         manifest = {
             "name": "Tweaks for TopMeteo.eu",
             "version": "2.3"
         }
         self.assertTrue(is_manifest_valid(manifest))
 
-    def is_manifest_valid_false(self):
+    def test_is_manifest_valid_false(self):
         manifest = []
         self.assertFalse(is_manifest_valid(manifest))
 
