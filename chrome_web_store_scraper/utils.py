@@ -33,6 +33,15 @@ def get_users(script_data: list):
         return 0
 
 
+def get_screenshots(script_data: list):
+    if script_data[5]:
+        screenshots = [image_raw[-1] for image_raw in script_data[5]]
+    else:
+        screenshots = []
+
+    return screenshots
+
+
 def get_developer(script_data: list):
     if script_data[10]:
         developer = {
@@ -48,8 +57,6 @@ def get_developer(script_data: list):
 
 
 def format_script_data(script_data: list):
-    images = [image_raw[-1] for image_raw in script_data[5]]
-
     manifest = load_manifest(script_data[20])
 
     if not is_manifest_valid(manifest):
@@ -72,7 +79,7 @@ def format_script_data(script_data: list):
         'type': type,
         'category': script_data[0][11][0] if script_data[0][11] else None,
         'users': get_users(script_data),
-        'screenshots': images,
+        'screenshots': get_screenshots(script_data),
         'overview': script_data[6],
         'version': script_data[13],
         'size': script_data[15],
