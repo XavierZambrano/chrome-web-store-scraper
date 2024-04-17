@@ -4,3 +4,7 @@ class InvalidManifest(Exception):
 
 class NotAvailableItem(Exception):
     pass
+
+
+class DynamoDbPipelineProcessError(Exception):
+    pass
