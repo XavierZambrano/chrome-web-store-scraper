@@ -1,6 +1,7 @@
 import re
 import json
 from chrome_web_store_scraper.errors import InvalidManifest
+import pyjson5
 
 
 def script_text_to_json(text):
@@ -9,11 +10,7 @@ def script_text_to_json(text):
 
 
 def load_manifest(manifest_raw: str) -> dict:
-    # Remove BOM
-    manifest = manifest_raw.replace(u'\ufeff', '')
-
-    return json.loads(manifest)
-
+    return pyjson5.loads(manifest_raw)
 
 def is_manifest_valid(manifest):
     if not isinstance(manifest, dict):
