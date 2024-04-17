@@ -28,7 +28,8 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             'jjbkhmlbghdnlkkcgekdipankmcioblk': 'https://chromewebstore.google.com/detail/unziponline/jjbkhmlbghdnlkkcgekdipankmcioblk',  # App
             'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm',
             'jjbhgpfdmeneonmohjkipnbfegoclbpa': 'https://chromewebstore.google.com/detail/thomas-bangalter-theme/jjbhgpfdmeneonmohjkipnbfegoclbpa',
-            'fmamogbdpldjdkjldlcicflgecgahalp': 'https://chromewebstore.google.com/detail/webcam-widget-pro/fmamogbdpldjdkjldlcicflgecgahalp'
+            'fmamogbdpldjdkjldlcicflgecgahalp': 'https://chromewebstore.google.com/detail/webcam-widget-pro/fmamogbdpldjdkjldlcicflgecgahalp',
+            'enoefonmnokjconjjeknncmfghbidokn': 'https://chromewebstore.google.com/detail/facebook-is-a-trap/enoefonmnokjconjjeknncmfghbidokn'
         }
 
     def test_parse_top_extension(self):
@@ -255,8 +256,14 @@ class TestChromeWebStoreSpider(unittest.TestCase):
 
         self.assertEqual(ItemAdapter(result).asdict()['screenshots'], expected_result)
 
-    def test_parse_no_images(self):
-        pass  # All the chrome web store items have at least one screenshot
+    def test_parse_no_screenshots(self):
+        mock_response = self.get_mock_response('enoefonmnokjconjjeknncmfghbidokn')
+        expected_result = []
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['screenshots'], expected_result)
 
     def test_parse_overview(self):
         mock_response = self.get_mock_response('nllcnknpjnininklegdoijpljgdjkijc')
