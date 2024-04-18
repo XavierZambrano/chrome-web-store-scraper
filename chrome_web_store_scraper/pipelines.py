@@ -59,6 +59,7 @@ class DynamoDbPipeline(object):
 
     def close_spider(self, spider):
         self.table = None
+        spider.logger.info(f'Stored ({self.stats.get_value("item_scraped_count")} items) in DynamoDB table: {self.table_name}')
 
     def process_item(self, item, spider):
         try:
