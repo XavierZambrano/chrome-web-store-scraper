@@ -1,7 +1,7 @@
 import scrapy
-from scrapy.spiders import SitemapSpider
 from dotenv import load_dotenv
 
+from chrome_web_store_scraper.spiders.custom_sitemap import CustomSitemapSpider
 from chrome_web_store_scraper.utils import script_to_data
 from chrome_web_store_scraper.items import ChromeWebStoreItem, ChromeWebStoreItemLoader
 from chrome_web_store_scraper.errors import NotAvailableItem
@@ -9,7 +9,7 @@ from chrome_web_store_scraper.errors import NotAvailableItem
 load_dotenv()
 
 
-class ChromeWebStoreSpider(SitemapSpider):
+class ChromeWebStoreSpider(CustomSitemapSpider):
     name = "chromewebstore"
     allowed_domains = ["chromewebstore.google.com"]
     sitemap_urls = ['https://chromewebstore.google.com/sitemap']
