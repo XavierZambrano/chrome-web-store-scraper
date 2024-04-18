@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  TableName:
+    Type: String
+    Default: 'ChromeWebStoreItem'
+Resources:
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  DynamoDBWriteUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub '${TableName}WriteUser'
+      Policies:
+        - PolicyName: DynamoDBWritePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:DescribeTable
+                Resource: !GetAtt DynamoDBTable.Arn
+  DynamoDBWriteUserAccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref DynamoDBWriteUser
+
+Outputs:
+    DynamoDBWriteUser:
+        Value: !Ref DynamoDBWriteUser
+        Description: 'DynamoDB Write User'
+    DynamoDBTable:
+        Value: !Ref DynamoDBTable
+        Description: 'DynamoDB Table'
+    AccessKeyId:
+        Value: !Ref DynamoDBWriteUserAccessKey
+        Description: 'Access Key ID of the DynamoDB Write User'
+    SecretAccessKey:
+        Value: !GetAtt DynamoDBWriteUserAccessKey.SecretAccessKey
+        Description: 'Secret Access Key of the DynamoDB Write User'
