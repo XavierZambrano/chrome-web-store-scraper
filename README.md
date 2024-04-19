@@ -35,7 +35,7 @@ AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
 AWS_REGION_NAME=YOUR_AWS_REGION
 DYNAMODB_TABLE_NAME=YOUR_DYNAMODB_TABLE_NAME
 ```
-3. Config `settings.py`. **Uncomment** the following code in the `settings.py` file:
+3. Config [`settings.py`](chrome_web_store_scraper/settings.py). **Uncomment** the following code in the [`settings.py`](chrome_web_store_scraper/settings.py) file:
 ```python
 ITEM_PIPELINES = {
    # "chrome_web_store_scraper.pipelines.DynamoDbPipeline": 300,
