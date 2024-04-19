@@ -4,7 +4,11 @@ This is a scraper for the [Chrome Web Store](https://chromewebstore.google.com/)
 
 ## Installation
 
-### Install the dependencies
+### Setup
+
+1. Clone the repository
+2. Create a virtual environment
+3. Install the dependencies
 ```bash
 pip install -r requirements.txt
 ```
@@ -43,6 +47,7 @@ ITEM_PIPELINES = {
 ```
 
 ## Usage
+Note: Remember activate the virtual environment before running the commands.
 
 Scrape the data and use the Pipelines to save the data to a DB.
 ```bash
