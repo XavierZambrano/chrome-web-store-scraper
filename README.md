@@ -1,2 +1,62 @@
 # chrome-web-store-scraper
-Chrome Web Store Scraper 
+
+This is a scraper for the [Chrome Web Store](https://chromewebstore.google.com/). It extracts data from extensions, themes, and apps.  You can find the dataset at mydomain.com (coming soon). The dataset is updated regularly. Alternatively, you can scrape the data yourself using this scraper.
+
+## Installation
+
+### Install the dependencies
+```bash
+pip install -r requirements.txt
+```
+
+
+### Set proxy (optional)
+Set HTTP_PROXY and HTTPS_PROXY in the `.env` file.
+```bash
+HTTP_PROXY=http://host:port
+HTTPS_PROXY=http://host:port
+```
+
+### Setup DynamoDB Pipeline (optional)
+The DynamoDBPipeline saves the scraped items to a DynamoDB table.
+
+1. Deploy the AWS resources using SAM CLI and copy the AccessKeyId and SecretAccessKey:
+```bash
+sam build & sam deploy
+```
+2. Set the env vars in the `.env` file.
+```bash
+AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
+AWS_REGION_NAME=YOUR_AWS_REGION
+DYNAMODB_TABLE_NAME=YOUR_DYNAMODB_TABLE_NAME
+```
+3. Config `settings.py`. **Uncomment** the following code in the `settings.py` file:
+```python
+ITEM_PIPELINES = {
+   # "chrome_web_store_scraper.pipelines.DynamoDbPipeline": 300,
+}
+# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# AWS_REGION_NAME = os.getenv("AWS_REGION_NAME")
+# DYNAMODB_TABLE_NAME = os.getenv("DYNAMODB_TABLE_NAME")
+```
+
+## Usage
+
+Scrape the data and use the Pipelines to save the data to a DB.
+```bash
+scrapy crawl chromewebstore
+```
+
+Scrape the data and save in a CSV file. (If a Pipeline is enabled, the data will also be saved also in the DB)
+```bash
+scrapy crawl chromewebstore -O output.csv
+```
+
+Scrape the data and save in a json file. (If a Pipeline is enabled, the data will also be saved also in the DB)
+```bash
+scrapy crawl chromewebstore -O output.json
+```
+
+For more information about scrapy crawl arguments, refer to the [scrapy docs](https://docs.scrapy.org/en/latest/topics/commands.html#std-command-crawl).
