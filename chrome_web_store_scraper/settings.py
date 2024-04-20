@@ -71,10 +71,6 @@ ITEM_PIPELINES = {
    # "chrome_web_store_scraper.pipelines.DynamoDbPipeline": 300,
    # "chrome_web_store_scraper.pipelines.PostgresqlPipeline": 301,
 }
-# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-# AWS_REGION_NAME = os.getenv("AWS_REGION_NAME")
-# DYNAMODB_TABLE_NAME = os.getenv("DYNAMODB_TABLE_NAME")
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
