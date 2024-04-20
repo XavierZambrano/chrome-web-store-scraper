@@ -42,6 +42,25 @@ ITEM_PIPELINES = {
 }
 ```
 
+### Setup PostgresqlPipeline (optional)
+The PostgreSQLPipeline saves the scraped items to a PostgreSQL table.
+
+1. Create the PostgreSQL db
+2. Set the env vars in the `.env` file.
+```bash
+PGHOST=YOUR_PGHOST
+PGDATABASE=YOUR_PGHDATABASE
+PGUSER=YOUR_PGUSER
+PGPASSWORD=YOUR_PGPASSWORD
+```
+3. Create the table, execute [`scripts/create_postgresql_table.py`](scripts/create_postgresql_table.py)
+4. Config [`settings.py`](chrome_web_store_scraper/settings.py). **Uncomment** the following code in the [`settings.py`](chrome_web_store_scraper/settings.py) file:
+```python
+ITEM_PIPELINES = {
+  # "chrome_web_store_scraper.pipelines.PostgresqlPipeline": 301,
+}
+```
+
 ## Usage
 Note: Remember activate the virtual environment before running the commands.
 
@@ -50,12 +69,12 @@ Scrape the data and use the Pipelines to save the data to a DB.
 scrapy crawl chromewebstore
 ```
 
-Scrape the data and save in a CSV file. (If a Pipeline is enabled, the data will also be saved also in the DB)
+Scrape the data and save in a CSV file. (If a Pipeline is enabled, the data will also be saved also in the corresponding DB)
 ```bash
 scrapy crawl chromewebstore -O output.csv
 ```
 
-Scrape the data and save in a json file. (If a Pipeline is enabled, the data will also be saved also in the DB)
+Scrape the data and save in a json file. (If a Pipeline is enabled, the data will also be saved also in the corresponding DB)
 ```bash
 scrapy crawl chromewebstore -O output.json
 ```
