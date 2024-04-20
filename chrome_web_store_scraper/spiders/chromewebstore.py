@@ -6,9 +6,6 @@ from chrome_web_store_scraper.items import ChromeWebStoreItem, ChromeWebStoreIte
 from chrome_web_store_scraper.errors import NotAvailableItem
 
 
-load_dotenv()
-
-
 class ChromeWebStoreSpider(SitemapSpider):
     name = "chromewebstore"
     allowed_domains = ["chromewebstore.google.com"]
