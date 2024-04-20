@@ -87,7 +87,8 @@ class DynamoDbPipeline(object):
 
 
 class PostgresqlPipeline(object):
-    def __init__(self, host, user, password, db_name, table_name='chrome_web_store_item', encoder=postgresql_encoder):
+    def __init__(self, stats, host, user, password, db_name, table_name='chrome_web_store_item', encoder=postgresql_encoder):
+        self.stats = stats
         self.encoder = encoder
         self.host = host
         self.user = user
@@ -105,6 +106,7 @@ class PostgresqlPipeline(object):
         db_name = crawler.settings.get('PGDATABASE')
 
         return cls(
+            stats=crawler.stats,
             host=host,
             user=user,
             password=password,
@@ -123,7 +125,7 @@ class PostgresqlPipeline(object):
     def close_spider(self, spider):
         self.cursor.close()
         self.conn.close()
-        spider.logger.info(f'Stored ({self.cursor.rowcount} items) in PostgreSQL table: {self.table_name}')
+        spider.logger.info(f'Stored ({self.stats.get_value("item_scraped_count")} items) in PostgreSQL table: {self.table_name}')
 
     def process_item(self, item, spider):
         insert_query = f'''
