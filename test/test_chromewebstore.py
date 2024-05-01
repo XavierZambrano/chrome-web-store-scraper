@@ -29,7 +29,8 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             'kapfdnlpbbdjbhpabafjhdglkjjckbkm': 'https://chromewebstore.google.com/detail/cloudfulness/kapfdnlpbbdjbhpabafjhdglkjjckbkm',
             'jjbhgpfdmeneonmohjkipnbfegoclbpa': 'https://chromewebstore.google.com/detail/thomas-bangalter-theme/jjbhgpfdmeneonmohjkipnbfegoclbpa',
             'fmamogbdpldjdkjldlcicflgecgahalp': 'https://chromewebstore.google.com/detail/webcam-widget-pro/fmamogbdpldjdkjldlcicflgecgahalp',
-            'enoefonmnokjconjjeknncmfghbidokn': 'https://chromewebstore.google.com/detail/facebook-is-a-trap/enoefonmnokjconjjeknncmfghbidokn'
+            'enoefonmnokjconjjeknncmfghbidokn': 'https://chromewebstore.google.com/detail/facebook-is-a-trap/enoefonmnokjconjjeknncmfghbidokn',
+            'pjkljhegncpnkpknbcohdijeoejaedia': 'https://chromewebstore.google.com/detail/pjkljhegncpnkpknbcohdijeoejaedia',
         }
 
     def test_parse_top_extension(self):
@@ -106,6 +107,15 @@ class TestChromeWebStoreSpider(unittest.TestCase):
     def test_parse_website_owner_none(self):
         mock_response = self.get_mock_response('hpaaaecejfpkokofieggejohddmmaajp')
         expected_result = None
+
+        generator = self.spider.parse(mock_response)
+        result = next(generator)
+
+        self.assertEqual(ItemAdapter(result).asdict()['website_owner'], expected_result)
+
+    def test_parse_website_owner_google(self):
+        mock_response = self.get_mock_response('pjkljhegncpnkpknbcohdijeoejaedia')
+        expected_result = 'https://chromewebstore.google.com/collection/by_chrome_extensions'
 
         generator = self.spider.parse(mock_response)
         result = next(generator)
