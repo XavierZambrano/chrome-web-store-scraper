@@ -14,6 +14,13 @@ def take_second(value):
         return value[1]
 
 
+def complete_relative_urls(url):
+    if url.startswith('./'):
+        return f'https://chromewebstore.google.com/{url[2:]}'
+    else:
+        return url
+
+
 @dataclass
 class ChromeWebStoreItem:
     id: str = field(default=None)
@@ -56,7 +63,7 @@ class ChromeWebStoreItemLoader(ItemLoader):
     small_promo_tile_in = MapCompose(str)
     small_promo_tile_out = TakeFirst()
 
-    website_owner_in = MapCompose(str)
+    website_owner_in = MapCompose(str, complete_relative_urls)
     website_owner_out = TakeFirst()
 
     created_by_the_website_owner_in = MapCompose(bool)
