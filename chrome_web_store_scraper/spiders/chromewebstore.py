@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from scrapy.spiders import SitemapSpider
 
 from chrome_web_store_scraper.utils import script_to_data
@@ -16,7 +15,10 @@ class ChromeWebStoreSpider(SitemapSpider):
 
     def parse(self, response):
         if response.xpath('//div[@class="VuNdOd"]').get():
-            raise NotAvailableItem(f'Item not available {response.url}')
+            self.crawler.stats.inc_value('item_skipped_count', 1, 0)
+            self.crawler.stats.inc_value(f'item_skipped_reasons_count/{NotAvailableItem.__name__}', 1, 0)
+            self.logger.info(f'{NotAvailableItem.__name__}: {response.url}')
+            return
 
         l = ChromeWebStoreItemLoader(ChromeWebStoreItem(), selector=response)
         id = response.url.split('/')[-1]
