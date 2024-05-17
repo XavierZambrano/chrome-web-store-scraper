@@ -1,11 +1,20 @@
-import unittest
+import os
 import json
 from itemadapter import ItemAdapter
 from scrapy.crawler import CrawlerProcess
+from betamax import Betamax
+from betamax.fixtures.unittest import BetamaxTestCase
+from scrapy.http import HtmlResponse
 
 from chrome_web_store_scraper.spiders.chromewebstore import ChromeWebStoreSpider
 from chrome_web_store_scraper.errors import NotAvailableItem
-from test.utils import mock_response_from_file
+
+
+with Betamax.configure() as config:
+    cassette_library_dir = 'test/fixtures/cassettes'
+    os.makedirs(cassette_library_dir, exist_ok=True)
+    config.cassette_library_dir = cassette_library_dir
+    config.preserve_exact_body_bytes = True
 
 
 if 'unittest.util' in __import__('sys').modules:
@@ -13,14 +22,16 @@ if 'unittest.util' in __import__('sys').modules:
     __import__('sys').modules['unittest.util']._MAX_LENGTH = 999999
 
 
-class TestChromeWebStoreSpider(unittest.TestCase):
+class TestChromeWebStoreSpider(BetamaxTestCase):
     def setUp(self):
+        super().setUp()
+
         self.maxDiff = None
         self.spider = ChromeWebStoreSpider()
         process = CrawlerProcess(install_root_handler=False)
         crawler = process.create_crawler(ChromeWebStoreSpider)
         self.spider.crawler = crawler
-        self.mock_response = {
+        self.pages = {
             'nllcnknpjnininklegdoijpljgdjkijc': 'https://chromewebstore.google.com/detail/wordtune-generative-ai-pr/nllcnknpjnininklegdoijpljgdjkijc',
             'hpaaaecejfpkokofieggejohddmmaajp': 'https://chromewebstore.google.com/detail/tweaks-for-topmeteoeu/hpaaaecejfpkokofieggejohddmmaajp',
             'efaidnbmnnnibpcajpcglclefindmkaj': 'https://chromewebstore.google.com/detail/adobe-acrobat-pdf-edit-co/efaidnbmnnnibpcajpcglclefindmkaj',
@@ -389,9 +400,11 @@ class TestChromeWebStoreSpider(unittest.TestCase):
             result = next(generator)
 
     def get_mock_response(self, id):
-        mock_response_path = f'assets/example_responses/{id}.html'
-        mock_response_url = self.mock_response[id]
-        return mock_response_from_file(mock_response_path, mock_response_url)
+        url = self.pages[id]
+        response = self.session.get(url)
+        scrapy_response = HtmlResponse(body=response.content, url=url)
+
+        return scrapy_response
 
     def get_expected_result(self, id):
         expected_result_path = f'assets/expected/{id}.json'
