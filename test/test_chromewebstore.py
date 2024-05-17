@@ -27,10 +27,9 @@ class TestChromeWebStoreSpider(BetamaxTestCase):
         super().setUp()
 
         self.maxDiff = None
-        self.spider = ChromeWebStoreSpider()
         process = CrawlerProcess(install_root_handler=False)
-        crawler = process.create_crawler(ChromeWebStoreSpider)
-        self.spider.crawler = crawler
+        process.crawl(ChromeWebStoreSpider)
+        self.spider = list(process.crawlers)[0].spider
         self.pages = {
             'nllcnknpjnininklegdoijpljgdjkijc': 'https://chromewebstore.google.com/detail/wordtune-generative-ai-pr/nllcnknpjnininklegdoijpljgdjkijc',
             'hpaaaecejfpkokofieggejohddmmaajp': 'https://chromewebstore.google.com/detail/tweaks-for-topmeteoeu/hpaaaecejfpkokofieggejohddmmaajp',
@@ -395,9 +394,10 @@ class TestChromeWebStoreSpider(BetamaxTestCase):
 
     def test_not_available_item(self):
         mock_response = self.get_mock_response('fmamogbdpldjdkjldlcicflgecgahalp')
-        with self.assertRaises(NotAvailableItem):
-            generator = self.spider.parse(mock_response)
-            result = next(generator)
+
+        generator = self.spider.parse(mock_response)
+        with self.assertRaises(StopIteration):
+            next(generator)
 
     def get_mock_response(self, id):
         url = self.pages[id]
