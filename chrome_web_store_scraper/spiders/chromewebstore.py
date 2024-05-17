@@ -32,7 +32,7 @@ class ChromeWebStoreSpider(SitemapSpider):
 
         developer_address_raw = response.xpath('//div[@class="C2WXF"]/text()').getall()
         developer_address = '\n'.join(developer_address_raw)
-        developer_trader_raw = response.xpath('//li[@class="Qt4bne C0lQ7e"]//div[@class="qqYFxc"]/text()').get()
+        developer_trader_raw = response.xpath('//li[@class="ZbWJPd LoyuIb"]//div[@class="nws2nb"]/text()').get()
         data['developer']['address'] = developer_address if developer_address else None
         data['developer']['website'] = response.xpath('//a[@class="XQ8Hh"]/@href').get()
         data['developer']['trader'] = True if developer_trader_raw.lower() == 'Trader'.lower() else False
