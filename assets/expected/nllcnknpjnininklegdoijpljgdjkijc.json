@@ -7,8 +7,8 @@
   "website_owner": "https://wordtune.com",
   "created_by_the_website_owner": true,
   "featured": true,
-  "rating": 4.618349392542941,
-  "rating_count": 2387,
+  "rating": 4.613361169102297,
+  "rating_count": 2395,
   "type": "Extension",
   "category": "Workflow & Planning",
   "users": 1000000,
@@ -19,12 +19,12 @@
     "https://lh3.googleusercontent.com/FIZE3yDBWweOm3EQ9OnXynuAPkaNbB7olSRjEccggQic3aomhTlIRjoeDc2iV69TqlDPNsU-uCIFCz75xY-yikprVA"
   ],
   "overview": "Busy professionals have tons of work to get through. Some accept the frustration while others choose Wordtune to speed up their tasks. \n\nWordtune is a Generative AI platform for work productivity. By using reliable Generative AI, professionals from all fields can grow their careers and stand out at work. Whether you’re writing emails, creating documents or sending instant messages to colleagues or clients, Wordtune perfects your writing while streamlining your work using AI. \n\nTake your productivity to new heights with the Wordtune Chrome extension — available on all your favorite websites and web apps. \n\nWordtune’s latest and and most advanced set of GenAI tools for work include: \n\n➡\uFE0F Rewrite: Perfect your writing with Wordtune Rewrite — from a single word to an entire page.\n\n➡\uFE0F Summarization: Cut reading and watching time in half by summarizing YouTube videos, blog articles, PDFs and more. \n\n➡\uFE0F AI writing: Enhance your productivity by writing faster with AI suggestions — all while remaining true to your unique style.\n\n➡\uFE0F Corrections and recommendations: Write like the professional you are with AI recommendations. Unleash your thoughts without worrying about grammar or spelling mistakes.\n\n➡\uFE0F Smart translation: Choose from 10 languages to Smart translate to English. \n\n➡\uFE0F Tones and length: Make sure your message hits the right note — change your tone from professional to casual in just a click. Effortlessly reduce or increase word count depending on your needs. \n\nUse the Wordtune anywhere you need it: Whether you're on your desktop, mobile device or using your favorite apps, Wordtune is there for you.\n\nWe’re constantly working on updates and improvements to make your Wordtune experience even better. If you have questions or feedback, we would love to hear from you at help@wordtune.com.",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "size": "16.65MiB",
   "languages": [
     "English"
   ],
-  "last_updated": 1712055462,
+  "last_updated": 1713080992,
   "developer": {
     "name": "Wordtune",
     "address": "AI21 Labs Ltd.\n124 Ibn Gabirol St.\nTel Aviv 6203854\nIL",
