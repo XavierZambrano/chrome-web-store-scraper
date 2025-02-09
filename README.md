@@ -1,6 +1,6 @@
 # chrome-web-store-scraper
 
-This is a scraper for the [Chrome Web Store](https://chromewebstore.google.com/). It extracts data from extensions, themes, and apps.  You can find the dataset at [fourleafsearch.com](https://www.fourleafsearch.com/). The dataset is updated regularly. Alternatively, you can scrape the data yourself using this scraper.
+This is a scraper for the [Chrome Web Store](https://chromewebstore.google.com/). It extracts data from extensions, themes, and apps.
 
 ## Installation
 
